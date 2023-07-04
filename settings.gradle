@@ -1,8 +1,9 @@
 pluginManagement {
     repositories {
+        gradlePluginPortal()
         google()
         mavenCentral()
-        gradlePluginPortal()
+        jcenter()
     }
 }
 dependencyResolutionManagement {
@@ -10,6 +11,27 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        jcenter()
+        maven {
+            url 'https://jitpack.io'
+            credentials { username 'ufJ1dG4D428vJjirdnPh' }
+        }
+        maven { url 'https://zendesk.jfrog.io/zendesk/repo' }
+
+        //HyperVerge Repo
+        maven {     url "https://s3.ap-south-1.amazonaws.com/hvsdk/android/releases"}
+
+        /*maven {
+            url "s3://hvsdk/android/releases"
+            content {
+                // this repository only contains artifacts with group "my.company"
+                includeGroup "co.hyperverge"
+            }
+            credentials(AwsCredentials) {
+                accessKey 'AKIAXB3KY4F5AQJD6WHT'
+                secretKey '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'
+            }
+        }*/
     }
 }
 rootProject.name = "MapAssignment"

@@ -6,16 +6,19 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.assignment.mapdevDigital.databinding.FragmentLocationListBinding
-import com.assignment.mapdevDigital.models.LocationList
+import com.assignment.mapdevDigital.ui.map.LocationHistoryManager
 
 class LocationRecyclerViewAdapter(
-    private val cardList: List<LocationList?>?,
+    private var cardList: List<String?>?,
     private val context: Context,
+    private val locationHistoryManager: LocationHistoryManager,
+    private val onCLick: OnCLick,
+    private  val lattitudeList: List<String>,
+    private val longitudeList: List<String>,
 ) : RecyclerView.Adapter<LocationRecyclerViewAdapter.ViewHolder>() {
     inner class ViewHolder(val binding: FragmentLocationListBinding) :
         RecyclerView.ViewHolder(binding.root)
 
-    private var selectedCardIndex: Int = -1
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding =
@@ -28,9 +31,14 @@ class LocationRecyclerViewAdapter(
         try {
             if (cardList?.isNotEmpty() == true) {
                 with(holder) {
+                    binding.text.text = cardList!![position]
+                    binding.imageView.setOnClickListener {
 
-
-                    binding.text.text = cardList[position]!!.Locations
+                        onCLick.funOnCLick(cardList!![position])
+                    }
+                    binding.text.setOnClickListener {
+                        onCLick.goWheather(lattitudeList[position],longitudeList[position])
+                    }
 
 
                 }
@@ -44,4 +52,23 @@ class LocationRecyclerViewAdapter(
     override fun getItemCount(): Int {
         return cardList!!.size
     }
+
+    fun filterList(filteredList: ArrayList<String>) {
+        cardList = filteredList
+        notifyDataSetChanged()
+    }
+
+
+    fun makenotifyDataSeetCHanged(newlist: List<String?>?) {
+        cardList=newlist
+        this.notifyDataSetChanged()
+    }
+
+    interface OnCLick {
+        fun funOnCLick(s: String?)
+        fun goWheather(s: String?, s1: String)
+    }
+
+
+
 }
